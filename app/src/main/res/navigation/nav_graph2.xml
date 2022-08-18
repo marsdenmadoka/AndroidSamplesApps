@@ -5,15 +5,7 @@
     android:id="@+id/nav_graph2"
     app:startDestination="@id/sleepTrackerFragment">
 
-    <fragment
-        android:id="@+id/sleepQualityFragment"
-        android:name="com.SleepTrackerApp.sleepquality.SleepQualityFragment"
-        android:label="fragment_sleep_quality"
-        tools:layout="@layout/fragment_sleep_quality" >
-        <action
-            android:id="@+id/action_sleepQualityFragment_to_sleepTrackerFragment2"
-            app:destination="@id/sleepTrackerFragment" />
-    </fragment>
+
     <fragment
         android:id="@+id/sleepTrackerFragment"
         android:name="com.SleepTrackerApp.sleeptracker.SleepTrackerFragment"
@@ -23,4 +15,21 @@
             android:id="@+id/action_sleepTrackerFragment_to_sleepQualityFragment3"
             app:destination="@id/sleepQualityFragment" />
     </fragment>
+
+    <fragment
+        android:id="@+id/sleepQualityFragment"
+        android:name="com.SleepTrackerApp.sleepquality.SleepQualityFragment"
+        android:label="fragment_sleep_quality"
+        tools:layout="@layout/fragment_sleep_quality" >
+
+        <argument
+            android:name="sleepNightKey"
+            app:argType="long"
+            />
+        <action
+            android:id="@+id/action_sleepQualityFragment_to_sleepTrackerFragment2"
+            app:destination="@id/sleepTrackerFragment" />
+
+    </fragment>
+
 </navigation>

@@ -10,7 +10,6 @@ import com.example.gameudacity.databinding.FragmentScoreBinding
 class scoreFragment : Fragment(R.layout.fragment_score) {
     private lateinit var viewModel: scoreViewModel
     private lateinit var viewModelFactory: scoreViewModelFactory
-
     private lateinit var binding: FragmentScoreBinding
 
 

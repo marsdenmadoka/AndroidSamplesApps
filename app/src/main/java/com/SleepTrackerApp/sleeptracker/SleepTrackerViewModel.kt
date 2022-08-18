@@ -1,13 +1,17 @@
 package com.SleepTrackerApp.sleeptracker
 
-import android.text.method.TextKeyListener.clear
+import android.app.Application
+import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.Transformations
 import androidx.lifecycle.ViewModel
 import com.SleepTrackerApp.Room.TableEntity
 import com.SleepTrackerApp.Room.roomDao
+import com.SleepTrackerApp.formatNights
 import kotlinx.coroutines.*
 
-class SleepTrackerViewModel(val dbdao: roomDao) : ViewModel() {
+class SleepTrackerViewModel(val dbdao: roomDao,
+application: Application) : AndroidViewModel(application) {
 
     private var viewModelJob = Job()//to manage all our Coroutines
 
@@ -16,14 +20,17 @@ class SleepTrackerViewModel(val dbdao: roomDao) : ViewModel() {
         viewModelJob.cancel()
     }
 
-    private val uiScope = CoroutineScope(Dispatchers.Main + viewModelJob)//scope for our courintine to run in
+    private val uiScope =
+        CoroutineScope(Dispatchers.Main + viewModelJob)//scope for our courintine to run in
 
     private var tonight = MutableLiveData<TableEntity?>()
 
-    private val nights = dbdao.getAllNights()//get all nights from the database not a suspend function since our livedata in the dao runs inside a cournitine secretly
+   private val nights = dbdao.getAllNights()//get all nights from the database not a suspend function since our livedata in the dao runs inside a cournitine secretly
 
- //transform night into formated string for it to look nice
- val string
+    //transform night into formated string for it to look nice
+    val nightsString = Transformations.map(nights){
+        formatNights(it,application.resources)
+    }
 
 
     init {
@@ -48,46 +55,47 @@ class SleepTrackerViewModel(val dbdao: roomDao) : ViewModel() {
             night
         }
     }
-/**create a new sleep night insert it into the database and assign it to tonight*/
-    fun onStartTracking(){
-  uiScope.launch {
-      val newNight = TableEntity()//capture the current time as a start time
-      insertNight(newNight) //insert it to the database
-      tonight.value = getTonightFromDatabase()
-  }
+
+    /**create a new sleep night insert it into the database and assign it to tonight*/
+    fun onStartTracking() {
+        uiScope.launch {
+            val newNight = TableEntity()//capture the current time as a start time
+            insertNight(newNight) //insert it to the database
+            tonight.value = getTonightFromDatabase()
+        }
     }
 
-    private suspend fun insertNight(night:TableEntity){
-        withContext(Dispatchers.IO){
+    private suspend fun insertNight(night: TableEntity) {
+        withContext(Dispatchers.IO) {
             dbdao.insert(night)
         }
     }
 
 
-    fun onStoptracking(){//for stop button //stop tracking
+    fun onStoptracking() {//for stop button //stop tracking
         uiScope.launch {
-            val oldNight = tonight.value?:return@launch
+            val oldNight = tonight.value ?: return@launch
             oldNight.endTimeMilli = System.currentTimeMillis()
             updateNight(oldNight)
         }
     }
 
-    private suspend fun updateNight(night: TableEntity){
-        withContext(Dispatchers.IO){
+    private suspend fun updateNight(night: TableEntity) {
+        withContext(Dispatchers.IO) {
             dbdao.update(night)
         }
     }
 
 
-    fun onClear(){
+    fun onClear() {
         uiScope.launch {
             clearNight()
             tonight.value = null
         }
     }
 
-    suspend fun  clearNight(){
-        withContext(Dispatchers.IO){
+    suspend fun clearNight() {
+        withContext(Dispatchers.IO) {
             dbdao.clear()
         }
     }

@@ -9,8 +9,7 @@ data class TableEntity(
 
     @PrimaryKey(autoGenerate = true)
     var nightId: Long = 0L,
-
-    @PrimaryKey @ColumnInfo(name = "start_time_milli")
+    @ColumnInfo(name = "start_time_milli")
     val startTimeMilli: Long = System.currentTimeMillis(),
 
     @ColumnInfo(name = "end_time_milli")

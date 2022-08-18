@@ -5,14 +5,30 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".MainActivity">
-    <androidx.fragment.app.FragmentContainerView
+
+<!--    uncomment each NaHost fragment and run the app tos ee there working-->
+<!--    NOTE== you cannot uncomment more than one navHostFragment ContainerView at the same time-->
+
+<!-- NavHostFragment for GAME APP-->
+<!--    <androidx.fragment.app.FragmentContainerView-->
+<!--        android:id="@+id/nav_host_fragment"-->
+<!--        android:name="androidx.navigation.fragment.NavHostFragment"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="match_parent"-->
+<!--        app:defaultNavHost="true"-->
+<!--        app:navGraph="@navigation/nav_graph"-->
+<!--        />-->
+
+
+
+    <!-- NavHostFragment for SLEEP_TRACKER APP-->
+ <androidx.fragment.app.FragmentContainerView
         android:id="@+id/nav_host_fragment"
         android:name="androidx.navigation.fragment.NavHostFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:defaultNavHost="true"
-        app:navGraph="@navigation/nav_graph"
-
+        app:navGraph="@navigation/nav_graph2"
         />
 
 
