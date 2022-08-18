@@ -2,16 +2,18 @@ package com.SleepTrackerApp.sleeptracker
 
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Transformations
-import androidx.lifecycle.ViewModel
 import com.SleepTrackerApp.Room.TableEntity
 import com.SleepTrackerApp.Room.roomDao
 import com.SleepTrackerApp.formatNights
 import kotlinx.coroutines.*
 
-class SleepTrackerViewModel(val dbdao: roomDao,
-application: Application) : AndroidViewModel(application) {
+class SleepTrackerViewModel(
+    val dbdao: roomDao,
+    application: Application
+) : AndroidViewModel(application) {
 
     private var viewModelJob = Job()//to manage all our Coroutines
 
@@ -25,11 +27,21 @@ application: Application) : AndroidViewModel(application) {
 
     private var tonight = MutableLiveData<TableEntity?>()
 
-   private val nights = dbdao.getAllNights()//get all nights from the database not a suspend function since our livedata in the dao runs inside a cournitine secretly
+    private val nights =
+        dbdao.getAllNights()//get all nights from the database not a suspend function since our livedata in the dao runs inside a cournitine secretly
 
     //transform night into formated string for it to look nice
-    val nightsString = Transformations.map(nights){
-        formatNights(it,application.resources)
+    val nightsString = Transformations.map(nights) {
+        formatNights(it, application.resources)
+    }
+
+    /**navigation event state*/
+    private val _navigateToSleepQuality = MutableLiveData<TableEntity>()
+    val navigateToSleepQuality:LiveData<TableEntity>
+    get() = _navigateToSleepQuality
+
+    fun doneNavigating(){
+        _navigateToSleepQuality.value = null
     }
 
 
@@ -73,10 +85,19 @@ application: Application) : AndroidViewModel(application) {
 
 
     fun onStoptracking() {//for stop button //stop tracking
+        /**executed when the STOP button clicked
+         * In kotlin the return@label syntax is used for specifying which function among
+         * several nested ones this statement returns from.
+         * in this case,we are specifying to return from launch
+        * */
         uiScope.launch {
             val oldNight = tonight.value ?: return@launch
             oldNight.endTimeMilli = System.currentTimeMillis()
+            //update the night in the database to add the end time
             updateNight(oldNight)
+            /**using this for navigation,:: setting it to to oldnight since this value
+             * is nonNull only when we can set a sleepQuality;if we don't set we cannot navigate **/
+            _navigateToSleepQuality.value = oldNight
         }
     }
 

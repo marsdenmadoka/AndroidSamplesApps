@@ -16,6 +16,6 @@ data class TableEntity(
     var endTimeMilli: Long = startTimeMilli,
 
     @ColumnInfo(name = "quality_rating")
-    val sleepQuality:Int = -1
+    var sleepQuality:Int = -1
 ) {
 }

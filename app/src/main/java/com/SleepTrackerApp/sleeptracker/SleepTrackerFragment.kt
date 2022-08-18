@@ -5,6 +5,7 @@ import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import com.SleepTrackerApp.Room.roomdatabase
 import com.example.gameudacity.R
 import com.example.gameudacity.databinding.FragmentSleepTrackerBinding
@@ -47,7 +48,15 @@ class SleepTrackerFragment : Fragment(R.layout.fragment_sleep_tracker) {
             binding.showTrackingData.text = it.toString()
         })
 
-        // binding.showTrackingData.text = viewModel.nights.toString()
+        viewModel.navigateToSleepQuality.observe(viewLifecycleOwner, Observer {
+            it?.let {
+                this.findNavController().navigate(
+                    SleepTrackerFragmentDirections
+                        .actionSleepTrackerFragmentToSleepQualityFragment(it.nightId)) //parameter sleepnigt ke
+                viewModel.doneNavigating()
+            }
+
+        })
 
 
     }
