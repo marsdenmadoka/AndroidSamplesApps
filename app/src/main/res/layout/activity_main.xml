@@ -22,14 +22,24 @@
 
 
     <!-- NavHostFragment for SLEEP_TRACKER APP-->
+<!-- <androidx.fragment.app.FragmentContainerView-->
+<!--        android:id="@+id/nav_host_fragment"-->
+<!--        android:name="androidx.navigation.fragment.NavHostFragment"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="match_parent"-->
+<!--        app:defaultNavHost="true"-->
+<!--        app:navGraph="@navigation/nav_graph2"-->
+<!--        />-->
+
+ <!-- NavHostFragment for SLEEP_TRACKER_WITH_RECYCLERVIEW -->
  <androidx.fragment.app.FragmentContainerView
-        android:id="@+id/nav_host_fragment"
-        android:name="androidx.navigation.fragment.NavHostFragment"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:defaultNavHost="true"
-        app:navGraph="@navigation/nav_graph2"
-        />
+     android:id="@+id/nav_host_fragment"
+     android:name="androidx.navigation.fragment.NavHostFragment"
+     android:layout_width="match_parent"
+     android:layout_height="match_parent"
+     app:defaultNavHost="true"
+     app:navGraph="@navigation/nav_graph3"
+     />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,16 +1,16 @@
-package com.SleepTrackerApp.sleeptracker
+package com.sleepTrackerWihtRecyclerview.sleeptracker
 
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Transformations
-import com.SleepTrackerApp.Room.TableEntity
-import com.SleepTrackerApp.Room.roomDao
-import com.SleepTrackerApp.formatNights
+import com.sleepTrackerWihtRecyclerview.Room.TableEntity
+import com.sleepTrackerWihtRecyclerview.formatNights
+import com.sleepTrackerWihtRecyclerview.Room.roomDao
 import kotlinx.coroutines.*
 
-class SleepTrackerViewModel(
+class SleepTrackerViewModelForRecyclerview(
     val dbdao: roomDao,
     application: Application
 ) : AndroidViewModel(application) {
@@ -31,6 +31,7 @@ class SleepTrackerViewModel(
         dbdao.getAllNights()//get all nights from the database not a suspend function since our livedata in the dao runs inside a cournitine secretly
 
     //transform night into formated string for it to look nice
+
     val nightsString = Transformations.map(nights) {
         formatNights(it, application.resources)
     }

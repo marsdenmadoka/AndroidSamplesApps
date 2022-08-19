@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/nav_graph3"
+    app:startDestination="@id/sleepTrackerFragmentForRecyclerview">
+
+
+    <fragment
+        android:id="@+id/sleepTrackerFragmentForRecyclerview"
+        android:name="com.sleepTrackerWihtRecyclerview.sleeptracker.SleepTrackerFragmentForRecyclerview"
+        android:label="SleepTrackerFragmentForRecyclerview">
+        <action
+            android:id="@+id/action_sleepTrackerFragmentForRecyclerview_to_sleepQualityFragmentForRecyclerview"
+            app:destination="@id/sleepQualityFragmentForRecyclerview" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/sleepQualityFragmentForRecyclerview"
+        android:name="com.sleepTrackerWihtRecyclerview.sleepquality.SleepQualityFragmentForRecyclerview"
+        android:label="SleepQualityFragmentForRecyclerview">
+
+        <argument
+            android:name="sleepNightKey"
+            app:argType="long" />
+        <action
+            android:id="@+id/action_sleepQualityFragmentForRecyclerview_to_sleepTrackerFragmentForRecyclerview"
+            app:destination="@id/sleepTrackerFragmentForRecyclerview"
+            app:launchSingleTop="true"
+            app:popUpTo="@+id/sleepTrackerFragmentForRecyclerview"
+            app:popUpToInclusive="true" />
+    </fragment>
+</navigation>
