@@ -27,11 +27,10 @@ class SleepTrackerViewModelForRecyclerview(
 
     private var tonight = MutableLiveData<TableEntity?>()
 
-    private val nights =
+     val nights =
         dbdao.getAllNights()//get all nights from the database not a suspend function since our livedata in the dao runs inside a cournitine secretly
 
     //transform night into formated string for it to look nice
-
     val nightsString = Transformations.map(nights) {
         formatNights(it, application.resources)
     }

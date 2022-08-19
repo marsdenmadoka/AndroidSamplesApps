@@ -42,23 +42,42 @@ class SleepQualityFragmentForRecyclerview :
         })
 
 
-        binding.button0.setOnClickListener {
+        binding.qualityZeroImage.setOnClickListener {
             viewModel.onSetSleepQuality(0)
         }
-        binding.button1.setOnClickListener {
+        binding.qualityOneImage.setOnClickListener {
             viewModel.onSetSleepQuality(1)
         }
-        binding.button2.setOnClickListener {
+        binding.qualityTwoImage.setOnClickListener {
             viewModel.onSetSleepQuality(2)
         }
-        binding.button3.setOnClickListener {
+        binding.qualityThreeImage.setOnClickListener {
             viewModel.onSetSleepQuality(3)
         }
-        binding.button4.setOnClickListener {
+        binding.qualityFourImage.setOnClickListener {
             viewModel.onSetSleepQuality(4)
         }
-        binding.button5.setOnClickListener {
+        binding.qualityFiveImage.setOnClickListener {
             viewModel.onSetSleepQuality(5)
         }
     }
 }
+
+//binding.button0.setOnClickListener {
+//    viewModel.onSetSleepQuality(0)
+//}
+//binding.button1.setOnClickListener {
+//    viewModel.onSetSleepQuality(1)
+//}
+//binding.button2.setOnClickListener {
+//    viewModel.onSetSleepQuality(2)
+//}
+//binding.button3.setOnClickListener {
+//    viewModel.onSetSleepQuality(3)
+//}
+//binding.button4.setOnClickListener {
+//    viewModel.onSetSleepQuality(4)
+//}
+//binding.button5.setOnClickListener {
+//    viewModel.onSetSleepQuality(5)
+//}

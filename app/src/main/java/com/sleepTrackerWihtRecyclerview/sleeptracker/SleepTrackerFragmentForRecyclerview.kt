@@ -6,16 +6,18 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.gameudacity.R
 import com.example.gameudacity.databinding.FragmentSleepTrackerForRecyclerviewBinding
 import com.sleepTrackerWihtRecyclerview.Room.roomdatabase
+
 
 class SleepTrackerFragmentForRecyclerview : Fragment(R.layout.fragment_sleep_tracker_for_recyclerview) {
 
 //    private lateinit var viewModel: SleepTrackerViewModel
 //    private lateinit var viewModelFactory: SleepTrackerViewModelFactory
 
-    private lateinit var binding:FragmentSleepTrackerForRecyclerviewBinding
+    private lateinit var binding: FragmentSleepTrackerForRecyclerviewBinding
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -32,30 +34,44 @@ class SleepTrackerFragmentForRecyclerview : Fragment(R.layout.fragment_sleep_tra
 
         binding = FragmentSleepTrackerForRecyclerviewBinding.bind(view)
 
-        binding.startTrackingbtn.setOnClickListener {
+        binding.startButton.setOnClickListener {
             viewModel.onStartTracking()
         }
 
-        binding.StopTrackingbtn.setOnClickListener {
+        binding.stopButton.setOnClickListener {
             viewModel.onStoptracking()
         }
 
-        binding.clearbtn.setOnClickListener {
+        binding.clearButton.setOnClickListener {
             viewModel.onClear()
         }
 
 
-        viewModel.nightsString.observe(viewLifecycleOwner, Observer {
-            //update word
-            binding.showTrackingData.text = it.toString()
-        })
+//        viewModel.nightsString.observe(viewLifecycleOwner, Observer {
+//            //update word
+//            binding.showTrackina.text = it.toString()
+//        })
 
+        //binding our recycle view with the adapter
+       val  layoutManager = LinearLayoutManager(requireContext())
+        binding.sleepListRecyclerview.layoutManager = layoutManager
+
+        val adapter = SleepNightAdapter()
+        binding.sleepListRecyclerview.adapter = adapter
+
+         viewModel.nights.observe(viewLifecycleOwner, Observer {
+             it.let {
+                 adapter.submitList(it)
+             }
+         })
+
+
+        //navigate to sleep quality after we stop tracking
         viewModel.navigateToSleepQuality.observe(viewLifecycleOwner, Observer {
             it?.let {
                 this.findNavController().navigate(
-
                     SleepTrackerFragmentForRecyclerviewDirections.actionSleepTrackerFragmentForRecyclerviewToSleepQualityFragmentForRecyclerview(it.nightId)
-                ) //parameter sleepnigt ke
+                ) //parameter sleepnigt key
                 viewModel.doneNavigating()
             }
 
