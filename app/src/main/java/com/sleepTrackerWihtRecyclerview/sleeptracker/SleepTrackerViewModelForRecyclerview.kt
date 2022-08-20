@@ -95,6 +95,7 @@ class SleepTrackerViewModelForRecyclerview(
     }
 
 
+
     fun onStoptracking() {//for stop button //stop tracking
         /**executed when the STOP button clicked
          * In kotlin the return@label syntax is used for specifying which function among
@@ -130,6 +131,19 @@ class SleepTrackerViewModelForRecyclerview(
         withContext(Dispatchers.IO) {
             dbdao.clear()
         }
+    }
+
+    private val _navigateToSleepDataQuality = MutableLiveData<Long>()
+    val navigateToSleepDataQuality
+    get() = _navigateToSleepDataQuality
+
+    //navigate to sleep quality data
+    fun onSleepNightClicked(id:Long){
+    _navigateToSleepDataQuality.value = id
+    }
+
+    fun onSleepDataQualityNavigated(){
+        _navigateToSleepDataQuality.value = null
     }
 }
 

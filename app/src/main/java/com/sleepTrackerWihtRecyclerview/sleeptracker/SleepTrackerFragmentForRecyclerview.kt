@@ -12,7 +12,8 @@ import com.example.gameudacity.databinding.FragmentSleepTrackerForRecyclerviewBi
 import com.sleepTrackerWihtRecyclerview.Room.roomdatabase
 
 
-class SleepTrackerFragmentForRecyclerview : Fragment(R.layout.fragment_sleep_tracker_for_recyclerview) {
+class SleepTrackerFragmentForRecyclerview :
+    Fragment(R.layout.fragment_sleep_tracker_for_recyclerview) {
 
 //    private lateinit var viewModel: SleepTrackerViewModel
 //    private lateinit var viewModelFactory: SleepTrackerViewModelFactory
@@ -29,7 +30,10 @@ class SleepTrackerFragmentForRecyclerview : Fragment(R.layout.fragment_sleep_tra
 
         val viewModelFactory = SleepTrackerViewModelFactoryForRecyclerview(datasource, application)
         val viewModel =
-            ViewModelProvider(this, viewModelFactory).get(SleepTrackerViewModelForRecyclerview::class.java)
+            ViewModelProvider(
+                this,
+                viewModelFactory
+            ).get(SleepTrackerViewModelForRecyclerview::class.java)
 
 
         binding = FragmentSleepTrackerForRecyclerviewBinding.bind(view)
@@ -47,51 +51,66 @@ class SleepTrackerFragmentForRecyclerview : Fragment(R.layout.fragment_sleep_tra
         }
 
 
-//        viewModel.nightsString.observe(viewLifecycleOwner, Observer {
-//            //update word
-//            binding.showTrackina.text = it.toString()
-//        })
+        /** viewModel.nightsString.observe(viewLifecycleOwner, Observer {
+        //update word
+        binding.showTrackina.text = it.toString() }) */
 
         //binding our recycle view with the adapter
-       val  layoutManager = LinearLayoutManager(requireContext())
+        val layoutManager = LinearLayoutManager(requireContext())
         binding.sleepListRecyclerview.layoutManager = layoutManager
 
-        val adapter = SleepNightAdapter()
+        val adapter = SleepNightAdapter(SleepNightListener { nightid ->
+            /*Toast.makeText(context,"${nightid}",Toast.LENGTH_LONG).show()*/
+            /*passing the click item data to viewModel first*/
+            viewModel.onSleepNightClicked(nightid)
+        })
         binding.sleepListRecyclerview.adapter = adapter
 
-         viewModel.nights.observe(viewLifecycleOwner, Observer {
-             it.let {
-                 adapter.submitList(it)
-             }
-         })
+        viewModel.nights.observe(viewLifecycleOwner, Observer {
+            it.let {
+                adapter.submitList(it)
+            }
+        })
 
 
         //navigate to sleep quality after we stop tracking
-        viewModel.navigateToSleepQuality.observe(viewLifecycleOwner, Observer {
-            it?.let {
+        viewModel.navigateToSleepQuality.observe(viewLifecycleOwner, Observer { night ->
+            night?.let {
                 this.findNavController().navigate(
-                    SleepTrackerFragmentForRecyclerviewDirections.actionSleepTrackerFragmentForRecyclerviewToSleepQualityFragmentForRecyclerview(it.nightId)
+                    SleepTrackerFragmentForRecyclerviewDirections.actionSleepTrackerFragmentForRecyclerviewToSleepQualityFragmentForRecyclerview(
+                        night.nightId
+                    )
                 ) //parameter sleepnigt key
                 viewModel.doneNavigating()
             }
 
         })
 
+        viewModel.navigateToSleepDataQuality.observe(viewLifecycleOwner, Observer { night ->
+
+            night?.let {
+                this.findNavController().navigate(
+                    SleepTrackerFragmentForRecyclerviewDirections
+                        .actionSleepTrackerFragmentForRecyclerviewToSleepdetailsFragment(night))
+                viewModel.doneNavigating()
+            }
+
+        })
 
 
         /** //Button visibility functions
         viewModel.StartButtonVisible.observe(viewLifecycleOwner, Observer {
-            binding.startTrackingbtn.isEnabled = true
+        binding.startTrackingbtn.isEnabled = true
         })
 
         viewModel.StopButtonVisible.observe(viewLifecycleOwner, Observer {
-            binding.StopTrackingbtn.isEnabled = true
+        binding.StopTrackingbtn.isEnabled = true
         })
 
         viewModel.ClearButtonVisible.observe(viewLifecycleOwner, Observer {
-            binding.clearbtn.isEnabled = true
+        binding.clearbtn.isEnabled = true
         })
-**/
+         **/
 
 
     }

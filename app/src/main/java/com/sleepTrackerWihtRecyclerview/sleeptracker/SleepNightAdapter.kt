@@ -11,24 +11,49 @@ import com.sleepTrackerWihtRecyclerview.Room.TableEntity
 import com.sleepTrackerWihtRecyclerview.convertDurationToFormatted
 import com.sleepTrackerWihtRecyclerview.convertNumericQualityToString
 
+private const val ITEM_VIEW_TYPE_HEADER = 0
+private const val ITEM_VIEW_TYPE_ITEM = 1
 
-class SleepNightAdapter : ListAdapter<TableEntity, SleepNightAdapter.ViewHolder>(SleepNightDiffCallback()) {
+class SleepNightAdapter(val clickListener: SleepNightListener) :
+    ListAdapter<TableEntity, RecyclerView.ViewHolder>(SleepNightDiffCallback()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         return ViewHolder.from(parent)
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val item = getItem(position)
-        holder.bind(item)
+        holder.bind(getItem(position)!!, clickListener)
+
     }
 
     class ViewHolder private constructor(val binding: ListItemSleepNightBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(item: TableEntity) {
+
+//        init {
+//          rootclicker()
+//        }
+//        fun rootclicker(clickListener: SleepNightListener, item: TableEntity){
+//            binding.apply {
+//                root.setOnClickListener {
+//                    val position = adapterPosition
+//                    if(position != RecyclerView.NO_POSITION){
+//                        clickListener.onClick(item)
+//                    }
+//
+//                }
+//            }
+//        }
+
+        fun bind(item: TableEntity, clickListener: SleepNightListener) {
+
+            binding.root.setOnClickListener {
+                clickListener.onClick(item)
+            }
+
             val res = itemView.context.resources
-            binding.sleepLength.text = convertDurationToFormatted(item.startTimeMilli,item.endTimeMilli,res)
+            binding.sleepLength.text =
+                convertDurationToFormatted(item.startTimeMilli, item.endTimeMilli, res)
             binding.qualityString.text = convertNumericQualityToString(item.sleepQuality, res)
             binding.qualityImage.setBackgroundResource(
                 when (item.sleepQuality) {
@@ -68,5 +93,27 @@ class SleepNightDiffCallback : DiffUtil.ItemCallback<TableEntity>() {
     override fun areContentsTheSame(oldItem: TableEntity, newItem: TableEntity): Boolean {
         return oldItem == newItem
     }
+
+}
+
+
+/**listener class == this class will listen for clicks and pass on the related data for processing those click to the fragment*
+ * NB==There are a lot of patterns to implement click listener this is just one of them */
+class SleepNightListener(val clickListener: (sleepId: Long) -> Unit) {
+    fun onClick(night: TableEntity) = clickListener(night.nightId)
+}
+
+/**data holder class that represents a header*/
+sealed class DataItem {
+    abstract val id: Long
+    data class SleepNightItem(val sleepNight: TableEntity) : DataItem() {
+        override val id: Long
+            get() = sleepNight.nightId
+    }
+    object Header : DataItem() {
+        override val id: Long
+            get() = Long.MIN_VALUE
+    }
+
 
 }

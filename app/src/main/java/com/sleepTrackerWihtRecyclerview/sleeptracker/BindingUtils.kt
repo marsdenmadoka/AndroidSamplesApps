@@ -8,7 +8,6 @@ import com.sleepTrackerWihtRecyclerview.convertDurationToFormatted
 import com.sleepTrackerWihtRecyclerview.convertNumericQualityToString
 
 
-//inCase your using dataBinding
 
 /*
 @BindingAdapter("sleepImage")
