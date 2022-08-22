@@ -62,22 +62,3 @@ class SleepQualityFragmentForRecyclerview :
         }
     }
 }
-
-//binding.button0.setOnClickListener {
-//    viewModel.onSetSleepQuality(0)
-//}
-//binding.button1.setOnClickListener {
-//    viewModel.onSetSleepQuality(1)
-//}
-//binding.button2.setOnClickListener {
-//    viewModel.onSetSleepQuality(2)
-//}
-//binding.button3.setOnClickListener {
-//    viewModel.onSetSleepQuality(3)
-//}
-//binding.button4.setOnClickListener {
-//    viewModel.onSetSleepQuality(4)
-//}
-//binding.button5.setOnClickListener {
-//    viewModel.onSetSleepQuality(5)
-//}

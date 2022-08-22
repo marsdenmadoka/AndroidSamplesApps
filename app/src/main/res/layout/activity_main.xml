@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
-<!--    uncomment each NaHost fragment and run the app tos ee there working-->
+<!--    uncomment each NaHost fragment and run the app to see there working-->
 <!--    NOTE== you cannot uncomment more than one navHostFragment ContainerView at the same time-->
 
 <!-- NavHostFragment for GAME APP-->

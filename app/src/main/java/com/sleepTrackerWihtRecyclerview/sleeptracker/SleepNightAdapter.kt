@@ -107,7 +107,7 @@ class SleepNightAdapter(val clickListener: SleepNightListener) :
             binding.sleepLength.text =
                 convertDurationToFormatted(item.startTimeMilli, item.endTimeMilli, res)
             binding.qualityString.text = convertNumericQualityToString(item.sleepQuality, res)
-            binding.qualityImage.setBackgroundResource(
+            binding.qualityImage.setImageResource(
                 when (item.sleepQuality) {
                     0 -> R.drawable.ic_sleep_0
                     1 -> R.drawable.ic_sleep_1

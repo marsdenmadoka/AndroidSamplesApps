@@ -5,5 +5,9 @@
     android:layout_height="wrap_content"
     android:textAppearance="?android:attr/textAppearanceLarge"
     android:text="Sleep Results"
+    android:textSize="35sp"
+    android:textColor="@color/red"
+    android:textStyle="bold|italic"
     android:textAlignment="center"
+    android:background="@color/black"
     android:padding="8dp" />

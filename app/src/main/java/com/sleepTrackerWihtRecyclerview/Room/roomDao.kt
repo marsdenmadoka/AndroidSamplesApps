@@ -36,4 +36,8 @@ interface roomDao {
      */
     @Query("SELECT * FROM daily_sleep_quality_table ORDER BY nightId DESC LIMIT 1")
     fun getTonight():TableEntity? //nullable because when we clear all night content there is no night
+
+
+    @Query("SELECT * from daily_sleep_quality_table WHERE nightId = :key")
+    fun getNightWithId(key: Long): LiveData<TableEntity>
 }
