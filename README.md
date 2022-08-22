@@ -8,6 +8,6 @@
 
 ## Screenshots
 
-![Screenshot1](screenshots/Screenshot1.png)
-![Screenshot2](screenshots/Screenshot2.png)
-![Screenshot2](screenshots/Screenshot3.png)
+<img src="screenshots/Screenshot.png" width= 250/>
+<img src="screenshots/Screenshot2.png" width= 250/>
+<img src="screenshots/Screenshot3.png" width= 250/>
